@@ -19,8 +19,13 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Instructions:
 
-1. To spinup the server, run: 'npm run dev'. This starts the development server using nodemon.
+1. To spinup the server, run: 'npm run dev'. This starts the development server using nodemon. Just check the README.md  in the 'Server Folder to know more about the server setup.'
 
 2. To launch the app on chrome, use 'flutter run -d chrome --web-hostname localhost --web-port 3000'.
 
-3. Don't forget to manage the cors errors by installing the cors package in the server
+3. For navigation, we'd be using navigator 2.0, but for web's dynamic routing, we'd be using routemaster, which is like same with reactRouter.
+
+4. On your main, instead of returning just the MaterialApp, return MaterialApp.router.
+
+5. Anywhere Navigator.of(context) was used to navigate, change it to Routemaster.of(context);
+

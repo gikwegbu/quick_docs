@@ -14,7 +14,7 @@
 ## PORT Config
 When creating the port, use either the process.env.PORT if available (i.e will be available when you host the app) or 3001. Also, pass '0.0.0.0' into the app.listen(), as a wildcard to accept any ip address that wants to access the endpoints...
 
-## Safe Guarding your Database Credentials with dotenv
+## Safe Guarding your Database Credentials with dotenv(gd27cAq9qBnaU5qtnikwegbu)
 1. Install the dotenv package first of all.
 2. Create a .env file and store your credentials, username=kdfakdkfa password=lkasdjfkads
 3. Require the dotenv package in your mongoose file, 

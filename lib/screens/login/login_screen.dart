@@ -4,13 +4,15 @@ import 'package:quick_docs/repository/auth_repository.dart';
 import 'package:quick_docs/screens/home/home_screen.dart';
 import 'package:quick_docs/utils/colors.dart';
 import 'package:quick_docs/utils/image_utils.dart';
+import 'package:routemaster/routemaster.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   void signInWithGoogle(WidgetRef ref, BuildContext context) async {
     final sMessenger = ScaffoldMessenger.of(context);
-    final navigator = Navigator.of(context);
+    // final navigator = Navigator.of(context);
+    final navigator = Routemaster.of(context);
     final apiResponse =
         await ref.read(authRepositoryProvider).signInWithGoogle();
 
@@ -20,11 +22,12 @@ class LoginScreen extends ConsumerWidget {
       // This .update(), is inbuilt, i.e comes with the StateProvider
       // After then, we move to the HomeScreen
       ref.read(userProvider.notifier).update((state) => apiResponse.data);
-      navigator.push(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
+      // navigator.push(
+      //   MaterialPageRoute(
+      //     builder: (context) => const HomeScreen(),
+      //   ),
+      // );
+      navigator.push('/');
     } else {
       sMessenger.showSnackBar(
         SnackBar(
@@ -43,13 +46,6 @@ class LoginScreen extends ConsumerWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () => signInWithGoogle(ref, context),
-              // onPressed: () {
-              //   Navigator.of(context).push(
-              //     MaterialPageRoute(
-              //       builder: (context) => const HomeScreen(),
-              //     ),
-              //   );
-              // },
               icon: Image.asset(
                 ImageUtils.glogo,
                 height: 20,

@@ -14,6 +14,8 @@ dependencies:
   sign_in_with_apple: ^4.1.0
   flutter_riverpod:
   http:
+  shared_preferences:
+  routemaster:
 
 
   cupertino_icons: ^1.0.2
