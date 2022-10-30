@@ -16,6 +16,7 @@ dependencies:
   http:
   shared_preferences:
   routemaster:
+  flutter_quill:
 
 
   cupertino_icons: ^1.0.2

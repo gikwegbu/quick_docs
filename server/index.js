@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require("dotenv");
 const authRouter = require('./routes/auth');
 const cors = require('cors');
+const documentRouter = require('./routes/document');
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(authRouter);
+app.use(documentRouter);
 
 const DB = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.q4uhmzy.mongodb.net/?retryWrites=true&w=majority`;
 
