@@ -1,7 +1,13 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     as quill; // because it has some stuffs that interferes with material app
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quick_docs/models/api_response_model.dart';
+import 'package:quick_docs/models/document_model.dart';
+import 'package:quick_docs/repository/auth_repository.dart';
+import 'package:quick_docs/repository/document_repository.dart';
 import 'package:quick_docs/utils/colors.dart';
 import 'package:quick_docs/utils/image_utils.dart';
 
@@ -20,11 +26,44 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
       TextEditingController(text: 'Untitled Document');
 
   final quill.QuillController _quillController = quill.QuillController.basic();
+  ApiResponseModel? apiResponseModel;
+
+  @override
+  initState() {
+    super.initState();
+    fetchDocumentData();
+  }
+
+  void fetchDocumentData() async {
+    apiResponseModel = await ref
+        .read(documentRepositoryProvider)
+        .getDocumentById(ref.read(userProvider)!.token, widget.id);
+
+    if (apiResponseModel?.data != null) {
+      // Getting the response data, and type casting it as DocumentModel... 💪
+      titleController.text = (apiResponseModel?.data as DocumentModel).title;
+      setState(() {});
+    } else {
+      // Here we capture the fact that the document does not exist, then navigate user back...
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("${apiResponseModel?.error}")),
+      );
+      Navigator.pop(context);
+    }
+  }
 
   @override
   void dispose() {
     titleController.dispose();
     super.dispose();
+  }
+
+  void updateTitle(WidgetRef ref, String title) {
+    ref.read(documentRepositoryProvider).updateTitle(
+          token: ref.read(userProvider)!.token,
+          id: widget.id,
+          title: title,
+        );
   }
 
   @override
@@ -64,6 +103,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     ),
                     contentPadding: EdgeInsets.only(left: 10),
                   ),
+                  onSubmitted: (value) => updateTitle(ref, value),
                 ),
               ),
             ]),
