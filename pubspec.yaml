@@ -17,6 +17,7 @@ dependencies:
   shared_preferences:
   routemaster:
   flutter_quill:
+  socket_io_client: ^1.0.2
 
 
   cupertino_icons: ^1.0.2

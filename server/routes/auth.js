@@ -7,7 +7,6 @@ const authRouter = express.Router();
 
 
 authRouter.post('/api/signup', async(req, res) => {
-    console.log(req.body)
     try {
         const {name, email, profilePic} = req.body;
 

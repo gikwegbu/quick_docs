@@ -8,6 +8,7 @@ import 'package:quick_docs/models/api_response_model.dart';
 import 'package:quick_docs/models/document_model.dart';
 import 'package:quick_docs/repository/auth_repository.dart';
 import 'package:quick_docs/repository/document_repository.dart';
+import 'package:quick_docs/repository/socket_repository.dart';
 import 'package:quick_docs/utils/colors.dart';
 import 'package:quick_docs/utils/image_utils.dart';
 
@@ -28,9 +29,12 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   final quill.QuillController _quillController = quill.QuillController.basic();
   ApiResponseModel? apiResponseModel;
 
+  SocketRepository socketRepository = SocketRepository();
+
   @override
   initState() {
     super.initState();
+    socketRepository.joinRoom(widget.id); // Adding it to the Top before fetching the files bayi
     fetchDocumentData();
   }
 
