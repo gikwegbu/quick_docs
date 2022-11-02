@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth');
 const cors = require('cors');
 const documentRouter = require('./routes/document');
 const http = require('http');
+const Document = require('./models/document_model');
 
 dotenv.config();
 
@@ -39,6 +40,23 @@ io.on('connection', (socket) => {
         socket.join(documentId)
         console.log("Joined a room with ID: "+ documentId);
     });
+
+    socket.on('typing', (data) => {
+        // broadcast(), means the server sends data to everyone except the user that made the change.
+        // The '.to', helps restrict the message sending to a certain people, else, it'll be sent to everyone connected to the server.
+
+        socket.broadcast.to(data.room).emit("changes", data);
+    });
+
+    socket.on('save', (data) => {
+        saveData(data);
+    });
+    const saveData = async (data) => {
+        console.log("George this is the ID: " + data.room);
+        let document = await Document.findByIdAndUpdate(data.room, {content: data.delta});
+        document = await document.save();
+        console.log("George this is the saved doc: " + data.delta);
+    };
 });
 
 // Since we are now using the 'server', we won't listen on the 'app' anymore

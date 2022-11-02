@@ -11,4 +11,21 @@ class SocketRepository {
   void joinRoom(String documentId) {
     _socketClient.emit('join', documentId);
   }
+
+  void typing(Map<String, dynamic> data) {
+    // Same feature as when someone is typing on whatsapp
+    // typing...
+    _socketClient.emit('typing', data);
+  }
+
+  void autoSave(Map<String, dynamic> data) {
+    _socketClient.emit('save', data);
+  }
+
+  void changeListener (Function(Map<String, dynamic>) func) {
+    // Here, we need to listen to the emitted 'changes' from the socket,
+    // Then since we can't access the quill editor from this our current file (socketRepository file)
+    // We'd have a callback function, that will allow us have the returned 'data';
+    _socketClient.on('changes', (data) => func(data));
+  }
 }
